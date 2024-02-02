@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { v4 } from "uuid";
+
 import inputs from "../Constant/input.js";
+import ContactList from "./ContactList";
 
 function Contact() {
   const [contacts, setContacts] = useState([]);
@@ -20,20 +23,31 @@ function Contact() {
   };
 
   const addHandler = () => {
-    if (!contact.name || !contact.email || !contact.lastName || !contact.phone) {
+    if (
+      !contact.name ||
+      !contact.email ||
+      !contact.lastName ||
+      !contact.phone
+    ) {
       setAlert("Please enter a valid data");
       return;
     }
 
     setAlert("");
-    setContacts((contacts) => [...contacts, contact]);
+    const newContact = { ...contact, id: v4() };
+    setContacts((contacts) => [...contacts, newContact]);
     setContact({
       name: "",
       email: "",
       lastName: "",
       phone: "",
-    })
+    });
   };
+
+  const deleteHandler = id => {
+    const newContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(newContacts);
+  }
 
   return (
     <div>
@@ -51,6 +65,7 @@ function Contact() {
         <div>{alert && <p>{alert}</p>}</div>
         <button onClick={addHandler}>Add Contact</button>
       </div>
+      <ContactList contacts={contacts} deleteHandler={deleteHandler}/>
     </div>
   );
 }
