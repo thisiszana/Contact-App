@@ -7,7 +7,7 @@ function ContactList({ contacts, deleteHandler }) {
     <div className={styles.container}>
       <h3>Contact List</h3>
       {contacts.length ? (
-        <ul className={styles.contact}>
+        <ul className={styles.contacts}>
           {contacts.map((contact) => (
             <ContactItem
               key={contact.id}
